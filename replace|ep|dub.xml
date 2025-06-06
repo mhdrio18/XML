@@ -1,6 +1,10 @@
 <!--IN POST-->
+<b:with value='[&quot;Dubbed&quot;, &quot;Dubbing&quot;, &quot;Dub&quot;]' var='checkDub'>
 <b:include data='{filter: data:checkDub, class: &quot;dub&quot; }' name='EpDub'/>
+</b:with>
+<b:with value='[&quot;Episode&quot;, &quot;Eps&quot;, &quot;Ep&quot;]' var='checkEpisode'>
 <b:include data='{filter: data:checkEpisode, class: &quot;sub&quot; }' name='EpDub'/>
+</b:with>
 
   <!--DEFAULTMARKUP-->
 <b:includable id='EpDub'>
