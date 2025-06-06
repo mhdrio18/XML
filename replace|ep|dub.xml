@@ -1,0 +1,48 @@
+<!--IN POST-->
+<b:include data='{filter: data:checkDub, class: &quot;dub&quot; }' name='EpDub'/>
+<b:include data='{filter: data:checkEpisode, class: &quot;sub&quot; }' name='EpDub'/>
+
+  <!--DEFAULTMARKUP-->
+<b:includable id='EpDub'>
+          <b:loop values='data:post.labels' var='item'>
+            <b:with value='&quot;String: &quot; + data:item.name' var='string'>
+              <b:loop values='data:filter' var='first'>
+                <b:if cond='data:string contains data:first + &quot; &quot;'>
+      <b:include data='{ name: data:item.name, word: data:first }' name='getNumb'/>
+  </b:if>
+              </b:loop>
+            </b:with>
+          </b:loop>
+    </b:includable>
+
+  <!--https://github.com/wernayasa/XML/blob/main/title-change.xml-->
+<b:includable id='getNumb' var='object'>
+  <b:with value='[0,1,2,3,4,5,6,7,8,9]' var='numbers'>
+    <b:with value='data:object.check ? true : false' var='check'>
+      <b:if cond='data:check'>
+        <b:with value='data:numbers filter (k =&gt; data:object.name contains data:object.word + data:k)' var='filteredNumbers'>
+          <b:if cond='data:filteredNumbers.length != 0'>
+            <b:loop values='data:filteredNumbers' var='number'>
+              <b:with value='data:object.word + data:number' var='newWord'>
+                <b:with value='data:object.number + &quot;&quot; + data:number' var='newNumber'>
+                  <b:include data='{                     name: data:object.name,                     check: true,                     number: data:newNumber,                     word: data:newWord                   }' name='getNumb'/>
+                </b:with>
+              </b:with>
+            </b:loop>
+          <b:else/>
+            <div expr:class='&quot;item item-flex item-&quot; + data:class'>
+                    <div expr:class='&quot;sp-icon sp-12 &quot; + (data:view.isPost ? &quot;&quot; : &quot;sp-light &quot;) + &quot;sp-icon-&quot; + data:class'/>
+                    <div class='name'><data:object.number/></div>
+                  </div>
+          </b:if>
+        </b:with>
+      <b:else/>
+        <b:loop values='data:numbers where (k =&gt; data:object.name contains data:object.word + &quot; &quot; + data:k)' var='number'>
+          <b:with value='data:object.word + &quot; &quot; + data:number' var='newWord'>
+            <b:include data='{               name: data:object.name,               check: true,               number: data:number,               word: data:newWord             }' name='getNumb'/>
+          </b:with>
+        </b:loop>
+      </b:if>
+    </b:with>
+  </b:with>
+</b:includable>
